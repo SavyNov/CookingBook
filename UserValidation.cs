@@ -11,23 +11,23 @@ namespace CookingBook
 {
     internal class UserValidation
     {
-        Connection connection = new Connection();
+        readonly Connection connection = new Connection();
 
         public bool CheckUser(string username, string password) {
-            NpgsqlDataSource dataSource = connection.getDataSource();
+            NpgsqlDataSource dataSource = connection.GetDataSource();
             NpgsqlCommand command = dataSource.CreateCommand("SELECT id, username, password FROM public.users"+
                 " WHERE username = '"+username+"'"+
                 " AND "+
-                "password = '"+password+"';");
+                "password = '"+password+"';"); 
             NpgsqlDataReader reader = command.ExecuteReader();
             
             if (reader.HasRows) {
                 return true;
             }
             else {
-                DialogResult result = MessageBox.Show("Incorrect user, try again", "Error", MessageBoxButtons.OKCancel);
+                MessageBox.Show("Incorrect user, try again", "Error", MessageBoxButtons.OKCancel);
                 return false;         
-                }
             }
         }
+    }
 }

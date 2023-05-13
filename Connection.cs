@@ -9,12 +9,12 @@ using System.Windows.Forms;
 namespace CookingBook
 {
     internal class Connection {
-        public static string connectionString = "host=localhost;DataBase=CookingBookDB;Username=postgres;Password=GresMyPost";
+        public static string connectionString = "host=localhost;DataBase=CookingBookDB;Username=postgres;Password=postgres";
         NpgsqlDataSource dataSource = NpgsqlDataSource.Create(connectionString);
 
         public Connection() { }
 
-        public NpgsqlDataSource getDataSource() {
+        public NpgsqlDataSource GetDataSource() {
             return dataSource;
         }
     }

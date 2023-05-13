@@ -41,3 +41,4 @@ C:\uni\3ti kurs\2ri semestyr\USP\CookingBook\CookingBook\obj\Debug\CookingBook.c
 C:\uni\3ti kurs\2ri semestyr\USP\CookingBook\CookingBook\obj\Debug\CookingBook.exe
 C:\uni\3ti kurs\2ri semestyr\USP\CookingBook\CookingBook\obj\Debug\CookingBook.pdb
 C:\uni\3ti kurs\2ri semestyr\USP\CookingBook\CookingBook\obj\Debug\CookingBook.CookingBook.resources
+C:\uni\3ti kurs\2ri semestyr\USP\CookingBook\CookingBook\obj\Debug\CookingBook.AddRecipeForm.resources

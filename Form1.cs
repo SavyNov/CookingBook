@@ -12,20 +12,20 @@ namespace CookingBook
 {
     public partial class Form1: Form
     {
-        CookingBook cookingBook = new CookingBook();
+
         public Form1() {
-            
             InitializeComponent();
         }
 
         private void button1_Click(object sender, EventArgs e) {
-            String username = textBox1.Text;
-            String password = textBox2.Text;
+            string username = textBox1.Text;
+            string password = textBox2.Text;
             UserValidation validation = new UserValidation();
-            if (validation.CheckUser(username, password)) {
-                cookingBook.Show();
-                this.Hide();
-            }
+            if (!validation.CheckUser(username, password)) return;
+            //cookingBook.WindowState = FormWindowState.Maximized;
+            CookingBook cookingBook = new CookingBook();
+            cookingBook.Show();
+            this.Hide();
         }
     }
 }
