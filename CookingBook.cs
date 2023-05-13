@@ -47,11 +47,28 @@ namespace CookingBook
 
 
         private void button2_Click(object sender, EventArgs e) {
-            listView1.BeginUpdate();
-            listView1.Items.Clear();
-            recipes.GetRecipesFromDb(listView1);
-            listView1.EndUpdate();
-            listView1.Refresh();
+            RefreshList();
+        }
+
+        private void button1_Click(object sender, EventArgs e) {
+            listView.BeginUpdate();
+            listView.Items.Clear();
+            recipes.SearchRecipes(textBox1.Text, listView);
+            listView.EndUpdate();
+            textBox1.Text=String.Empty;
+        }
+
+        private void listView1_MouseDoubleClick(object sender, MouseEventArgs e) {
+            ListViewHitTestInfo info = listView1.HitTest(e.X, e.Y);
+            ListViewItem item = info.Item;
+
+            if (item!=null) {
+                MessageBox.Show("The selected Item Name is: "+item.Text);
+            }
+            else {
+                this.listView1.SelectedItems.Clear();
+                MessageBox.Show("No Item is selected");
+            }
         }
     }
 }

@@ -41,8 +41,6 @@ namespace CookingBook
                 description = reader.GetString(1);
                 instructions = reader.GetString(2);
 
-                var recipe = name + " \n" + description + " \n" + instructions + "\n";
-
                 ingredients = (string[])reader.GetValue(3);
                 string joinedIngredients = string.Join(", ", ingredients);
 
@@ -54,34 +52,68 @@ namespace CookingBook
             }
         }
 
-        public bool InsertRecipe(ListView listView,String tb1, String tb2, String tb3, String tb4) {
+        public bool InsertRecipe(ListView listView, String tb1, String tb2, String tb3, String tb4) {
             NpgsqlDataSource dataSource = connection.GetDataSource();
             string text = tb4;
-            string[] ingredientsArray = text.Split(' ');
-            List<string> ingredientsList  = new List<string>(ingredientsArray);
-          
-            string postGresArray = "[ '" + string.Join("','",ingredientsList) + "' ]";
-            
-            NpgsqlCommand command = dataSource.CreateCommand(
-                "INSERT INTO public.recipes (recipe_id,name, description, instructions, ingredients) VALUES(" +
-                "DEFAULT, " +
-                "'" + tb1 + "', " +
-                "'" + tb2+ "', " +
-                "'" + tb3+ "', " +
-                "ARRAY" +  postGresArray  + ");");
-            NpgsqlDataReader reader = command.ExecuteReader();
+            char[] separator = {'\r', ',' };
+            string[] ingredientsArray = text.Split(separator);
+            List<string> ingredientsList = new List<string>(ingredientsArray);
 
-            if (reader.RecordsAffected == 1 && 
-                (!String.IsNullOrEmpty(tb1)) && 
-                 (!String.IsNullOrEmpty(tb2))&&
-                 (!String.IsNullOrEmpty(tb3))&&
-                  (!String.IsNullOrEmpty(tb4))){
-                
+            string postGresArray = "[ '" + string.Join("','", ingredientsList) + "' ]";
+            if ((!String.IsNullOrEmpty(tb1)) &&
+                (!String.IsNullOrEmpty(tb2)) &&
+                (!String.IsNullOrEmpty(tb3)) &&
+                (!String.IsNullOrEmpty(tb4))) {
+
+                NpgsqlCommand command = dataSource.CreateCommand(
+                    "INSERT INTO public.recipes (recipe_id,name, description, instructions, ingredients) VALUES(" +
+                    "DEFAULT, " +
+                    "'" + tb1 + "', " +
+                    "'" + tb2 + "', " +
+                    "'" + tb3 + "', " +
+                    "ARRAY" + postGresArray + ");");
+                NpgsqlDataReader reader = command.ExecuteReader();
+                MessageBox.Show("Recipe was added successfully");
                 return true;
+
             }
             else {
-                MessageBox.Show("There cannot be empty lines, please fill all boxes");
+                MessageBox.Show("Files cannot be emtpy, please fill them");
                 return false;
+
+            }
+        }
+
+        public void SearchRecipes(String tb1,ListView listView) {
+            NpgsqlDataSource dataSource = connection.GetDataSource();
+            string text = tb1;
+            string[] ingredientsArray = text.Split(' ');
+            List<string> ingredientsList = new List<string>(ingredientsArray);
+
+            string postGresArray = "'"+string.Join("','", ingredientsList)+"' ";
+            if (!String.IsNullOrEmpty(tb1)) {
+                NpgsqlCommand command = dataSource.CreateCommand(
+                    "SELECT name, description, instructions, ingredients " +
+                    "FROM public.recipes " +
+                    "WHERE " + postGresArray + " = ANY (ingredients)" );
+                NpgsqlDataReader reader = command.ExecuteReader();
+                while (reader.Read()) {
+                    name=reader.GetString(0);
+                    description=reader.GetString(1);
+                    instructions=reader.GetString(2);
+
+                    ingredients=(string[])reader.GetValue(3);
+                    string joinedIngredients = string.Join(", ", ingredients);
+
+                    ListViewItem lvName = new ListViewItem(name);
+                    listView.Items.Add(lvName);
+                    lvName.SubItems.Add(description);
+                    lvName.SubItems.Add(instructions);
+                    lvName.SubItems.Add(joinedIngredients);
+                }
+            }
+            else {
+                MessageBox.Show("No such ingredient");
             }
         }
     }

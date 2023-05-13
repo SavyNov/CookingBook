@@ -44,6 +44,7 @@
             this.button1.TabIndex = 0;
             this.button1.Text = "Search";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button3
             // 
@@ -84,6 +85,7 @@
             this.listView1.TabIndex = 5;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
+            this.listView1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseDoubleClick);
             // 
             // RecipeName
             // 
@@ -108,9 +110,9 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(278, 30);
+            this.button2.Location = new System.Drawing.Point(278, 31);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 20);
+            this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 6;
             this.button2.Text = "Refresh";
             this.button2.UseVisualStyleBackColor = true;
